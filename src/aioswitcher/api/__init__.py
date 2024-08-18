@@ -141,12 +141,14 @@ class SwitcherApi(ABC):
 
     async def connect(self) -> None:
         """Connect to asynchronous socket and get reader and writer object."""
+        print("connecting to", self._ip_address)
         logger.info("connecting to the switcher device")
         self._reader, self._writer = await open_connection(
             host=self._ip_address,
             port=self._port,
             family=AF_INET,
         )
+        print("connected")
 
         self._connected = True
         logger.info("switcher device connected")
@@ -704,20 +706,34 @@ class SwitcherType2Api(SwitcherApi):
                     state, mode, target_temp, fan_level, set_swing, current_state.state
                 )
 
-                packet = packets.BREEZE_COMMAND_PACKET.format(
+
+                """ packet = packets.BREEZE_COMMAND_PACKET.format(
                     login_resp.session_id,
                     timestamp,
                     self._device_id,
                     command.length,
                     command.command,
+                ) """
+
+                packet = packets.BREEZE_COMMAND_PACKET.format(
+                    login_resp.session_id,
+                    self._device_id,
+                    timestamp,
+                    self._device_id,
+                    command.length,
+                    command.command,
+                    timestamp
                 )
+                
                 logger.debug("sending a control packet")
 
-            packet = set_message_length(packet)
+            print("sending control packet...")
+            # packet = set_message_length(packet)
             signed_packet = sign_packet_with_crc_key(packet)
 
             self._writer.write(unhexlify(signed_packet))
             response = await self._reader.read(1024)
+            print("response from control packet")
             cmd_response = SwitcherBaseResponse(response)
 
             if not cmd_response.successful:

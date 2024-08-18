@@ -1,0 +1,1 @@
+python scripts/control_device.py control_thermostat   -c "Switcher Breeze" -d 7e61b7 -i "10.100.102.44" -r YACIFBI0 -m cool -f low -t 25 -l 05

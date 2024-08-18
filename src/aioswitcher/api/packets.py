@@ -120,8 +120,15 @@ CREATE_SCHEDULE_PACKET = (
 
 # format values are local session id, timestamp, device id, phone id, device-
 # password, command length, command
-BREEZE_COMMAND_PACKET = (
+BREEZE_COMMAND_PACKET_X = (
     "fef0000003050102" + REQUEST_FORMAT_BREEZE + "{}" + PAD_72_ZEROS + "3701" + "{}{}"
+)
+
+BREEZE_COMMAND_PACKET = (
+    # works:
+    # "fef0" + "0a010" + "3050102" + "{}0000" + "01000000" + "{}" + "000000" + "{}" + "00000000000000000000" + "f0fe" + "{}" + "008828e9111cb3f472f33bf96af2fcc8f9f07f7b11a436cff65fd6a8c9082a6c1049201a" + "3701" + "{}{}"
+     "fef0" + "0a010" + "3050102" + "{}0000" + "01000000" + "{}" + "000000" + "{}" + "00000000000000000000" + "f0fe" + "{}" + "008828e9111cb3f472f33bf96af2fcc8f9f07f7b11a436cff65fd6a8c9082a6c1049201a" + "3701" + "{}{}"
+    # "fef00" + "3050102" + "{}0000" + "01000000" + "{}" + "000000" + "{}" + "00000000000000000000" + "f0fe" + "{}" + "008828e9111cb3f472f33bf96af2fcc8f9f07f7b11a436cff65fd6a8c9082a6c1049201a" + "3701" + "{}{}"
 )
 
 # format values are local session id, timestamp, device id, phone id, device-
